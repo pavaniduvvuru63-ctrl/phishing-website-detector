@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Phishing Detector</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h1>Phishing Website Detector</h1>
+
+<form action="/predict" method="POST">
+
+    Enter Website URL:
+    <input type="text" name="url" placeholder="https://example.com" required>
+    <br><br>
+
+    <button type="submit">Check Website</button>
+
+</form>
+
+{% if url_length is defined %}
+
+<div class="analysis-box">
+
+    <h3>Website Analysis</h3>
+
+    <p><strong>URL Length:</strong> {{ url_length }}</p>
+
+    <p><strong>HTTPS:</strong>
+        {% if has_https == 1 %}
+            Yes
+        {% else %}
+            No
+        {% endif %}
+    </p>
+
+    <p><strong>IP Address Used:</strong>
+        {% if has_ip == 1 %}
+            Yes
+        {% else %}
+            No
+        {% endif %}
+    </p>
+
+    {% if domain_age > 0 %}
+    <p><strong>Domain Age:</strong> {{ domain_age }} days</p>
+    {% endif %}
+
+</div>
+
+{% endif %}
+
+{% if result %}
+<h2>{{ result }}</h2>
+{% endif %}
+
+</body>
+</html>
